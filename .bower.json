@@ -1,0 +1,28 @@
+{
+  "name": "ace-toolbar",
+  "main": "index.html",
+  "homepage": "https://github.com/rigon/ace-toolbar",
+  "authors": [
+    "rigon <ricardompgoncalves@gmail.com>"
+  ],
+  "description": "Customizable toolbars for Ace Editor",
+  "keywords": [
+    "notes"
+  ],
+  "license": "GPL",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "^3.1.1",
+    "bootstrap": "^3.3.7",
+    "bootpopup": "^0.1.3",
+    "fontawesome": "^4.7.0",
+    "ace-build": "^1.2.6",
+    "string": "^3.3.3"
+  }
+}

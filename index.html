@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Ace Toolbar</title>
+		
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta charset="UTF-8">
+		
+		<link rel="stylesheet" type="text/css" href="bower_components/bootstrap/dist/css/bootstrap.min.css" />
+		<link rel="stylesheet" type="text/css" href="bower_components/fontawesome/css/font-awesome.min.css" />
+		
+		<script src="bower_components/jquery/dist/jquery.min.js"></script>
+		<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+		<script src="bower_components/bootpopup/bootpopup.js"></script>
+		<script src="bower_components/string/dist/string.min.js"></script>
+		<script src="bower_components/ace-build/src-min-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
+		<script src="ace-toolbar.js"></script>
+
+        <script type="text/javascript">
+            window.onload = function() {
+                $(".editor").acetoolbar({test: "hi there"});
+            }
+        </script>
+	</head>
+    <body>
+        <div class="editor" id="e1"></div>
+        <div class="editor" id="e2"></div>
+    </body>
+</html>
