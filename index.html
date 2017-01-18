@@ -20,6 +20,23 @@
             window.onload = function() {
                 $(".editor").acetoolbar({
 					lang: "markdown",
+
+					showtoolbar: true,
+					toolbar: ".selector",
+					toolbarlist: ["button1", "button2"],
+					toolbarbuttons: {
+						button1: {attrs},
+						button2: {attrs}
+					},
+					
+					showstatusbar: false,
+					statusbar: ".selector",
+					statusbarlist: ["button1", "button2"],
+					statusbarbuttons: {
+						button1: {attrs},
+						button2: {attrs}
+					},
+
 					split: "none" "below" "beside",
 					theme: "dreamweaver",
 					fontSize: "12px",
