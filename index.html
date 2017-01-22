@@ -20,47 +20,55 @@
             window.onload = function() {
                 $(".editor").acetoolbar({
 					lang: "markdown",
+					attrs: {class: "editor"},
 
-					showtoolbar: true,
-					toolbar: ".selector",
-					toolbarlist: ["button1", "button2"],
-					toolbarbuttons: {
-						button1: {attrs},
-						button2: {attrs}
+					toolbar: {
+						show: true,
+						attrs: {class: "toolbar"},
+						selector: ".selector",
+						list: ["button1", "button2"],
+						buttons: {
+							button1: {attrs: "attrs"},
+							button2: {attrs: "attrs"}
+						}
+					},
+
+					statusbar: {
+						show: true,
+						attrs: {class: "statusbar"},
+						selector: ".selector",
+						list: ["button1", "button2"],
+						buttons: {
+							button1: {attrs: "attrs"},
+							button2: {attrs: "attrs"}
+						}
 					},
 					
-					showstatusbar: false,
-					statusbar: ".selector",
-					statusbarlist: ["button1", "button2"],
-					statusbarbuttons: {
-						button1: {attrs},
-						button2: {attrs}
-					},
-
-					split: "none" "below" "beside",
 					theme: "dreamweaver",
-					fontSize: "12px",
-					folding: "manual" "markbegin" "markbeginend",
-					keybinding: "ace" "vim" "emacs" "custom",
-					softWrap: "off" "40" "80" "free",
-					selectFullLine: false,
-					highlightActiveLine: true,
-					showHidden: true,
-					showIndentGuides: true,
-					showHScroll: false,
-					showVScroll: false,
-					animateScroll: false,
-					showGutter: true,
-					showPrintMargin: true,
-					softTab: false,
-					highlightSelectedWord: false,
-					enablBehaviours: true,
-					fadeFoldWidgets: true,
-					elasticTabstops: false,
-					incrementalSearch: false,
-					highlightToken: false,
-					readOnly: true,
-					scrollPastEnd: false,
+ 					
+					// split: "none" "below" "beside",
+					// fontSize: "12px",
+					// folding: "manual" "markbegin" "markbeginend",
+					// keybinding: "ace" "vim" "emacs" "custom",
+					// softWrap: "off" "40" "80" "free",
+					// selectFullLine: false,
+					// highlightActiveLine: true,
+					// showHidden: true,
+					// showIndentGuides: true,
+					// showHScroll: false,
+					// showVScroll: false,
+					// animateScroll: false,
+					// showGutter: true,
+					// showPrintMargin: true,
+					// softTab: false,
+					// highlightSelectedWord: false,
+					// enablBehaviours: true,
+					// fadeFoldWidgets: true,
+					// elasticTabstops: false,
+					// incrementalSearch: false,
+					// highlightToken: false,
+					// readOnly: true,
+					// scrollPastEnd: false,
 
 
 
