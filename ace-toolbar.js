@@ -28,6 +28,12 @@ function start(htmlObj, opts) {
     editor.setShowPrintMargin(false);
     editor.focus();
 
+    $.getScript("mode/" + opts.lang + ".js", function(script, textStatus, jqXHR) {
+        console.log(script);
+        console.log(textStatus);
+        console.log(jqXHR);
+    });
+
     for(var key in opts) {
         switch(key) {
             case "toolbar":
