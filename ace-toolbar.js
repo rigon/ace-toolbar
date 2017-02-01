@@ -8,19 +8,36 @@ jQuery.fn.extend({
 });
 
 
-function start(htmlObj, opts) {
-    var obj = $(htmlObj);
+function acetoolbar() {
+    var editor;
+    var editorElement;
+    var toolbar;
+    var statusbar;
+    var options;
 
-    $.getScript("mode/" + opts.lang + ".js", function(script, textStatus, jqXHR) {
-        var defaultOptions = toolbar(editor, obj);
-        var finalOptions = processOptions(defaultOptions, opts);
-        create(obj, finalOptions);
-    });
-}
+    function create() {
+        toolbar = $("<div></div>");
+        statusbar = $("<div></div>");
+        editorElement = $("<div></div>");
+        editor = ace.edit(editorElement.get(0));
+    }
 
-function processOptions(defaultOptions, customOptions) {
-    for(attribute in customOptions)
-        ;
+    function loadLangConfig(lang) {
+        $.getScript("mode/" + lang + ".js", function(script, textStatus, jqXHR) {
+            var defaultOptions = toolbar(editor, obj);
+            var finalOptions = processOptions(defaultOptions, opts);
+        });
+    }
+
+    function processOptions(defaultOptions, customOptions) {
+        for(attribute in customOptions)
+            ;
+    }
+
+    function start(htmlObj, opts) {
+        var obj = $(htmlObj);
+        create();
+    }
 }
 
 function create(elem, options) {
