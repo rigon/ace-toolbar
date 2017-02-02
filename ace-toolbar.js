@@ -1,43 +1,26 @@
-jQuery.fn.extend({
-    acetoolbar: function (options) {
-        return this.each(function () {
-            console.log(this, options);
-            start(this, options);
-        });
-    }
-});
 
-
-function acetoolbar() {
-    var editor;
-    var editorElement;
-    var toolbar;
-    var statusbar;
+function acetoolbar(htmlElement, customOptions) {
+    var refObj = this;                              // Reference for this object
+    var element = $(htmlElement);                   // jQuery object of the selected HTML element
+    var editorElement = $("<div></div>");           // Content for Ace Editor
+    var editor = ace.edit(editorElement.get(0));    // Ace Editor
+    var toolbar = $("<div></div>");                 // Content for toolbar
+    var statusbar = $("<div></div>");               // Content for statusbar
     var options;
 
-    function create() {
-        toolbar = $("<div></div>");
-        statusbar = $("<div></div>");
-        editorElement = $("<div></div>");
-        editor = ace.edit(editorElement.get(0));
-    }
 
-    function loadLangConfig(lang) {
+    this.loadLangConfig = function(lang) {
         $.getScript("mode/" + lang + ".js", function(script, textStatus, jqXHR) {
-            var defaultOptions = toolbar(editor, obj);
-            var finalOptions = processOptions(defaultOptions, opts);
+            var defaultOptions = this.toolbar(editor, customOptions);
+            options = processOptions(defaultOptions, customOptions);
         });
     }
 
-    function processOptions(defaultOptions, customOptions) {
+    this.processOptions = function(defaultOptions, customOptions) {
         for(attribute in customOptions)
             ;
     }
 
-    function start(htmlObj, opts) {
-        var obj = $(htmlObj);
-        create();
-    }
 }
 
 function create(elem, options) {
@@ -138,3 +121,12 @@ function create(elem, options) {
         }
     }
 }
+
+jQuery.fn.extend({
+    acetoolbar: function (options) {
+        return this.each(function () {
+            console.log(this, options);
+            return acetoolbar(this, options);
+        });
+    }
+});

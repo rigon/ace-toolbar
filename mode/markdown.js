@@ -1,17 +1,17 @@
 
-function toolbar(editor, options) {
+acetoolbar.prototype.toolbar = function(editor, options) {
 
-    function bold() { editor.insert("****"); editor.selection.moveCursorLeft(); editor.selection.moveCursorLeft(); }
-    function italic() { editor.insert("**"); editor.selection.moveCursorLeft() }
-    function quote() { editor.insert("\n\n> "); }
-    function code() { editor.insert("\n\n    "); }
-    function ul() { editor.insert("\n\n - "); }
-    function ol() { editor.insert("\n\n 1. "); }
-    function header() { editor.insert("\n\n# "); }
-    function undo() { editor.getSession().getUndoManager().undo(); }
-    function redo() { editor.getSession().getUndoManager().redo(); }
+    this.bold = function() { editor.insert("****"); editor.selection.moveCursorLeft(); editor.selection.moveCursorLeft(); }
+    this.italic = function() { editor.insert("**"); editor.selection.moveCursorLeft() }
+    this.quote = function() { editor.insert("\n\n> "); }
+    this.code = function() { editor.insert("\n\n    "); }
+    this.ul = function() { editor.insert("\n\n - "); }
+    this.ol = function() { editor.insert("\n\n 1. "); }
+    this.header = function() { editor.insert("\n\n# "); }
+    this.undo = function() { editor.getSession().getUndoManager().undo(); }
+    this.redo = function() { editor.getSession().getUndoManager().redo(); }
 
-    function image() { 
+    this.image = function() { 
         bootpopup({
             title: "Add image",
             content: [
@@ -25,7 +25,7 @@ function toolbar(editor, options) {
         });
     }
     
-    function link() { 
+    this.link = function() {
         bootpopup({
             title: "Add hyperlink",
             content: [
@@ -43,21 +43,21 @@ function toolbar(editor, options) {
         buttons: {
             boldtest: '<button type="button" class="btn btn-default btn-bold" title="Bold"><span class="fa fa-bold"></span></button>',
             
-            bold: { title: "Bold", icon: "fa fa-bold", onclick: bold },
-            italic: { title: "Italic", icon: "fa fa-italic", onclick: italic },
+            bold: { title: "Bold", icon: "fa fa-bold", onclick: this.bold },
+            italic: { title: "Italic", icon: "fa fa-italic", onclick: this.italic },
 
-            quote: { title: "Quote text", icon: "fa fa-quote-left", onclick: quote },
-            code: { title: "Block of code", icon: "fa fa-code", onclick: code },
-            image: { title: "Add image", icon: "fa fa-image", onclick: image },
-            link: { title: "Hyperlink", icon: "fa fa-link", onclick: link },
+            quote: { title: "Quote text", icon: "fa fa-quote-left", onclick: this.quote },
+            code: { title: "Block of code", icon: "fa fa-code", onclick: this.code },
+            image: { title: "Add image", icon: "fa fa-image", onclick: this.image },
+            link: { title: "Hyperlink", icon: "fa fa-link", onclick: this.link },
             
-            ol: { title: "Ordered list", icon: "fa fa-ol", onclick: ol },
-            ul: { title: "Unordered list", icon: "fa fa-ul", onclick: ul },
-            header: { title: "Header", icon: "fa fa-header", onclick: header },
-            table: { title: "Table", icon: "fa fa-table", onclick: table },
+            ol: { title: "Ordered list", icon: "fa fa-ol", onclick: this.ol },
+            ul: { title: "Unordered list", icon: "fa fa-ul", onclick: this.ul },
+            header: { title: "Header", icon: "fa fa-header", onclick: this.header },
+            table: { title: "Table", icon: "fa fa-table", onclick: this.table },
             
-            undo: { title: "Undo", icon: "fa fa-undo", onclick: undo },
-            redo: { title: "Redo", icon: "fa fa-repeat", onclick: redo }
+            undo: { title: "Undo", icon: "fa fa-undo", onclick: this.undo },
+            redo: { title: "Redo", icon: "fa fa-repeat", onclick: this.redo }
         }
     };
 }
