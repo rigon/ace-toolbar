@@ -1,6 +1,6 @@
 
 acetoolbar.prototype.toolbar = function(editor, options) {
-
+    
     this.bold = function() { editor.insert("****"); editor.selection.moveCursorLeft(); editor.selection.moveCursorLeft(); }
     this.italic = function() { editor.insert("**"); editor.selection.moveCursorLeft() }
     this.quote = function() { editor.insert("\n\n> "); }

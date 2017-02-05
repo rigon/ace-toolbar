@@ -11,8 +11,8 @@ function acetoolbar(htmlElement, customOptions) {
 
     this.loadLangConfig = function(lang) {
         $.getScript("mode/" + lang + ".js", function(script, textStatus, jqXHR) {
-            var defaultOptions = this.toolbar(editor, customOptions);
-            options = processOptions(defaultOptions, customOptions);
+            var defaultOptions = refObj.toolbar(editor, customOptions);
+            options = refObj.processOptions(defaultOptions, customOptions);
         });
     }
 
@@ -21,7 +21,10 @@ function acetoolbar(htmlElement, customOptions) {
             ;
     }
 
+    console.log(this);
+    this.loadLangConfig(customOptions.lang);
 }
+
 
 function create(elem, options) {
     var toolbar = opts.toolbar;
@@ -122,11 +125,12 @@ function create(elem, options) {
     }
 }
 
+
 jQuery.fn.extend({
     acetoolbar: function (options) {
         return this.each(function () {
             console.log(this, options);
-            return acetoolbar(this, options);
+            return new acetoolbar(this, options);
         });
     }
 });
