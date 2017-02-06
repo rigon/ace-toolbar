@@ -12,13 +12,20 @@ function acetoolbar(htmlElement, customOptions) {
     this.loadLangConfig = function(lang) {
         $.getScript("mode/" + lang + ".js", function(script, textStatus, jqXHR) {
             var defaultOptions = refObj.toolbar(editor, customOptions);
-            options = refObj.processOptions(defaultOptions, customOptions);
+            refObj.processOptions(defaultOptions, customOptions);
         });
     }
 
     this.processOptions = function(defaultOptions, customOptions) {
-        for(attribute in customOptions)
-            ;
+        for(attribute in defaultOptions) {
+            switch(attribute) {
+                case "toolbar":
+                case "statusbar":
+            }
+
+            console.log(defaultOptions[attribute]);
+
+        }
     }
 
     console.log(this);
