@@ -22,6 +22,18 @@ function acetoolbar(htmlElement, customOptions) {
         });
     }
 
+
+    function listButtons(list, buttons) {
+        for(button in buttons) {
+            var indexBefore = list.indexOf(buttons[button].before);     // Index of before
+            var indexAfter = list.indexOf(buttons[button].after);       // Index of after
+            if(indexBefore >= 0) list.splice(indexBefore, 0, button);   // Insert before
+            if(indexAfter >= 0) list.splice(indexAfter + 1, 0, button); // Insert after
+            if(list.indexOf(button) < 0) list.push(button);             // Push if not present
+        }
+    }
+
+
     this.processOptions = function(customOptions, defaultOptions) {
         for(attribute in defaultOptions) {
             switch(attribute) {
@@ -34,7 +46,6 @@ function acetoolbar(htmlElement, customOptions) {
         }
     }
 
-    console.log(this);
     this.loadLangConfig(customOptions.lang);
 }
 
@@ -142,7 +153,6 @@ function create(elem, options) {
 jQuery.fn.extend({
     acetoolbar: function (options) {
         return this.each(function () {
-            console.log(this, options);
             return new acetoolbar(this, options);
         });
     }
