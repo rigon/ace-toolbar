@@ -1,4 +1,5 @@
 
+
 function acetoolbar(htmlElement, customOptions) {
     var refObj = this;                              // Reference for this object
     var element = $(htmlElement);                   // jQuery object of the selected HTML element
@@ -23,17 +24,6 @@ function acetoolbar(htmlElement, customOptions) {
     }
 
 
-    function listButtons(list, buttons) {
-        for(button in buttons) {
-            var indexBefore = list.indexOf(buttons[button].before);     // Index of before
-            var indexAfter = list.indexOf(buttons[button].after);       // Index of after
-            if(indexBefore >= 0) list.splice(indexBefore, 0, button);   // Insert before
-            if(indexAfter >= 0) list.splice(indexAfter + 1, 0, button); // Insert after
-            if(list.indexOf(button) < 0) list.push(button);             // Push if not present
-        }
-    }
-
-
     this.processOptions = function(customOptions, defaultOptions) {
         for(attribute in defaultOptions) {
             switch(attribute) {
@@ -45,6 +35,19 @@ function acetoolbar(htmlElement, customOptions) {
 
         }
     }
+
+    
+    function listButtons(list, buttons) {
+        for(button in buttons) {
+            var indexBefore = list.indexOf(buttons[button].before);          // Index of before
+            var indexAfter = list.indexOf(buttons[button].after);            // Index of after
+            if(indexBefore >= 0) list.splice(indexBefore, 0, button);        // Insert before
+            else if(indexAfter >= 0) list.splice(indexAfter + 1, 0, button); // Insert after
+            else if(list.indexOf(button) < 0) list.push(button);             // Push if not present
+        }
+        return list;
+    }
+
 
     this.loadLangConfig(customOptions.lang);
 }
