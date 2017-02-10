@@ -25,14 +25,17 @@ function acetoolbar(htmlElement, customOptions) {
 
 
     this.processOptions = function(customOptions, defaultOptions) {
+        this.options = customOptions;
+
         for(attribute in defaultOptions) {
             switch(attribute) {
                 case "toolbar":
                 case "statusbar":
+                    break;
+                default:
+                    if(!(attribute in this.options))    // Copy values not present in options
+                        this.options[attribute] = defaultOptions[attribute];
             }
-
-            console.log(defaultOptions[attribute]);
-
         }
     }
 
