@@ -65,4 +65,5 @@ acetoolbar.prototype.toolbar = function(editor, options) {
 
 
 acetoolbar.prototype.statusbar = function(editor, options) {
+    return { buttons: {} };
 }

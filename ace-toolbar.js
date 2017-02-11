@@ -15,7 +15,7 @@ function acetoolbar(htmlElement, customOptions) {
             var optionsToolbar = refObj.toolbar(editor, customOptions);
             var optionsStatusbar = refObj.statusbar(editor, customOptions);
 
-            refObj.processOptions(customOptions, {
+            refObj.processOptions({
                 toolbar: optionsToolbar,
                 statusbar: optionsStatusbar
             });
@@ -24,19 +24,43 @@ function acetoolbar(htmlElement, customOptions) {
     }
 
 
-    this.processOptions = function(customOptions, defaultOptions) {
+    this.processOptions = function(defaultOptions) {
         this.options = customOptions;
 
         for(attribute in defaultOptions) {
             switch(attribute) {
                 case "toolbar":
                 case "statusbar":
+                    // Check if exists in this.options
+                    if(attribute in this.options) {
+                        var src = defaultOptions[attribute];
+                        var dst = this.options[attribute];
+
+                        // Merge buttons
+                        for(btn in src.buttons)
+                                dst.buttons[btn] = src.buttons[btn];
+                        
+                        // List of buttons
+                        var list = [];
+                        if("list" in src) list = src.list;
+                        if("list" in dst) list = dst.list;
+                        dst.list = listButtons(list, dst.buttons);
+
+                        for(subattr in src) {
+                            if(!(subattr in dst))    // Copy values not present in toolbar or statusbar
+                                dst[subattr] = src[subattr];
+                        }
+                    }
+                    else    // If not doesn't exist, copy everything
+                        this.options[attribute] = defaultOptions[attribute];
                     break;
                 default:
                     if(!(attribute in this.options))    // Copy values not present in options
                         this.options[attribute] = defaultOptions[attribute];
             }
         }
+
+        console.log(this.options);
     }
 
     
