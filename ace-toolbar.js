@@ -20,6 +20,7 @@ function acetoolbar(htmlElement, customOptions) {
                 statusbar: optionsStatusbar
             });
 
+            refObj.create();
         });
     }
 
@@ -59,8 +60,6 @@ function acetoolbar(htmlElement, customOptions) {
                         this.options[attribute] = defaultOptions[attribute];
             }
         }
-
-        console.log(this.options);
     }
 
     
@@ -76,20 +75,47 @@ function acetoolbar(htmlElement, customOptions) {
     }
 
 
-    this.loadLangConfig(customOptions.lang);
+
+    function createBar(list, buttons, element) {
+        for(name in list) {
+            var button = buttons[list[name]];
+            var obj;
+
+            if(typeof button === "string")
+                obj = $(button);
+            else if(typeof button === "object") {
+                // Create button
+                obj = $('<button type="button" class="btn btn-default"></button>');
+
+                // If has icon
+                if("icon" in button) {
+                    var icon = $("<span></span>", { class: button.icon });
+                    delete button.icon;
+                }
+
+                // Set attributes
+                obj.attr(button);
+            }
+            // Add button to bar
+            element.append(obj);
+        }
+    }
 
     this.create = function() {
+
         // Append toolbar
-        toolbar.attrs(this.options.toolbar.attrs);
+        toolbar.attr(this.options.toolbar.attr);
         element.append(toolbar);
+        createBar(this.options.toolbar.list, this.options.toolbar.buttons, toolbar);
 
         // Append editor
-        editor.attrs(this.options.attrs);
+        editor.attr(this.options.attr);
         element.append(editor);
 
         // Append statusbar
-        statusbar.attrs(this.options.statusbar.attrs);
+        statusbar.attr(this.options.statusbar.attr);
         element.append(statusbar);
+        createBar(this.options.statusbar.list, this.options.statusbar.buttons, statusbar);
 
         
         // Configure Ace Editor
@@ -97,7 +123,7 @@ function acetoolbar(htmlElement, customOptions) {
         aceEditor.getSession().setMode("ace/mode/" + this.options.lang);
         aceEditor.focus();
 
-        for(var key in opts) {
+        for(var key in this.options) {
             switch(key) {
                 case "toolbar":
                 case "statusbar":
@@ -177,6 +203,10 @@ function acetoolbar(htmlElement, customOptions) {
             }
         }
     }
+
+
+    // Start by loading configurations for language
+    this.loadLangConfig(customOptions.lang);
 }
 
 jQuery.fn.extend({
