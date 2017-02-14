@@ -90,9 +90,15 @@ function acetoolbar(htmlElement, customOptions) {
                 // If has icon
                 if("icon" in button) {
                     var icon = $("<span></span>", { class: button.icon });
+                    obj.append(icon);
                     delete button.icon;
                 }
 
+                // Convert functions to string
+                for(attribute in button)
+                    if(typeof button[attribute] === "function")
+                        button[attribute] = "("+ button[attribute] + ")(this)";
+                
                 // Set attributes
                 obj.attr(button);
             }

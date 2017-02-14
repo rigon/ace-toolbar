@@ -41,8 +41,6 @@ acetoolbar.prototype.toolbar = function(editor, options) {
 
     return {
         buttons: {
-            boldtest: '<button type="button" class="btn btn-default btn-bold" title="Bold"><span class="fa fa-bold"></span></button>',
-            
             bold: { title: "Bold", icon: "fa fa-bold", onclick: this.bold },
             italic: { title: "Italic", icon: "fa fa-italic", onclick: this.italic },
 
@@ -51,8 +49,8 @@ acetoolbar.prototype.toolbar = function(editor, options) {
             image: { title: "Add image", icon: "fa fa-image", onclick: this.image },
             link: { title: "Hyperlink", icon: "fa fa-link", onclick: this.link },
             
-            ol: { title: "Ordered list", icon: "fa fa-ol", onclick: this.ol },
-            ul: { title: "Unordered list", icon: "fa fa-ul", onclick: this.ul },
+            ol: { title: "Ordered list", icon: "fa fa-list-ol", onclick: this.ol },
+            ul: { title: "Unordered list", icon: "fa fa-list-ul", onclick: this.ul },
             header: { title: "Header", icon: "fa fa-header", onclick: this.header },
             table: { title: "Table", icon: "fa fa-table", onclick: this.table },
             
