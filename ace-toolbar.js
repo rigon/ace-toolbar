@@ -93,7 +93,11 @@ function acetoolbar(htmlElement, customOptions) {
                     obj.append(icon);
                     delete button.icon;
                 }
-
+                // If has text
+                if("text" in button) {
+                    obj.append(" " + button.text);
+                    delete button.text;
+                }
                 // Convert functions to string
                 for(attribute in button)
                     if(typeof button[attribute] === "function")
@@ -116,7 +120,7 @@ function acetoolbar(htmlElement, customOptions) {
 
         // Append editor
         editor.attr(this.options.attr);
-        element.append(editor);
+        //element.append(editor);
 
         // Append statusbar
         statusbar.attr(this.options.statusbar.attr);
