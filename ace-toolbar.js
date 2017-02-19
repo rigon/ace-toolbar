@@ -1,26 +1,29 @@
 
 
 function acetoolbar(htmlElement, customOptions) {
-    var refObj = this;                          // Reference for this object
+    var self = this;                            // Reference for this object
     var element = $(htmlElement);               // jQuery object of the selected HTML element
     var editor = $("<div></div>");              // Content for Ace Editor
     var toolbar = $("<div></div>");             // Content for toolbar
     var statusbar = $("<div></div>");           // Content for statusbar
-    var aceEditor = ace.edit(editor.get(0));    // Ace Editor
+    this.aceEditor = ace.edit(editor.get(0));   // Ace Editor
     var options;
 
+    // Global reference for this object
+    var self_id = "acetoolbar_" + Math.round(Math.random() * Number.MAX_SAFE_INTEGER);
+    eval(self_id + "=this");
 
     this.loadLangConfig = function(lang) {
         $.getScript("mode/" + lang + ".js", function(script, textStatus, jqXHR) {
-            var optionsToolbar = refObj.toolbar(aceEditor, customOptions);
-            var optionsStatusbar = refObj.statusbar(aceEditor, customOptions);
+            var optionsToolbar = self.toolbar(this.aceEditor, customOptions);
+            var optionsStatusbar = self.statusbar(this.aceEditor, customOptions);
 
-            refObj.processOptions({
+            self.processOptions({
                 toolbar: optionsToolbar,
                 statusbar: optionsStatusbar
             });
 
-            refObj.create();
+            self.create();
         });
     }
 
@@ -76,7 +79,7 @@ function acetoolbar(htmlElement, customOptions) {
 
 
 
-    function createBar(list, buttons, element) {
+    function createBar(list, buttons, element, self_id) {
         for(name in list) {
             var button = buttons[list[name]];
             var obj;
@@ -101,7 +104,7 @@ function acetoolbar(htmlElement, customOptions) {
                 // Convert functions to string
                 for(attribute in button)
                     if(typeof button[attribute] === "function")
-                        button[attribute] = "("+ button[attribute] + ")(this)";
+                        button[attribute] = "("+ button[attribute] + ")(" + self_id + ".aceEditor, " + self_id + ")";
                 
                 // Set attributes
                 obj.attr(button);
@@ -116,7 +119,7 @@ function acetoolbar(htmlElement, customOptions) {
         // Append toolbar
         toolbar.attr(this.options.toolbar.attr);
         element.append(toolbar);
-        createBar(this.options.toolbar.list, this.options.toolbar.buttons, toolbar);
+        createBar(this.options.toolbar.list, this.options.toolbar.buttons, toolbar, self_id);
 
         // Append editor
         editor.attr(this.options.attr);
@@ -125,13 +128,13 @@ function acetoolbar(htmlElement, customOptions) {
         // Append statusbar
         statusbar.attr(this.options.statusbar.attr);
         element.append(statusbar);
-        createBar(this.options.statusbar.list, this.options.statusbar.buttons, statusbar);
+        createBar(this.options.statusbar.list, this.options.statusbar.buttons, statusbar, self_id);
 
         
         // Configure Ace Editor
-        aceEditor.setTheme("ace/theme/" + this.options.theme);
-        aceEditor.getSession().setMode("ace/mode/" + this.options.lang);
-        aceEditor.focus();
+        this.aceEditor.setTheme("ace/theme/" + this.options.theme);
+        this.aceEditor.getSession().setMode("ace/mode/" + this.options.lang);
+        this.aceEditor.focus();
 
         for(var key in this.options) {
             switch(key) {

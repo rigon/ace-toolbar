@@ -1,17 +1,17 @@
 
 acetoolbar.prototype.toolbar = function(editor, options) {
 
-    this.bold = function() { editor.insert("****"); editor.selection.moveCursorLeft(); editor.selection.moveCursorLeft(); }
-    this.italic = function() { editor.insert("**"); editor.selection.moveCursorLeft() }
-    this.quote = function() { editor.insert("\n\n> "); }
-    this.code = function() { editor.insert("\n\n    "); }
-    this.ul = function() { editor.insert("\n\n - "); }
-    this.ol = function() { editor.insert("\n\n 1. "); }
-    this.header = function() { editor.insert("\n\n# "); }
-    this.undo = function() { editor.getSession().getUndoManager().undo(); }
-    this.redo = function() { editor.getSession().getUndoManager().redo(); }
+    this.bold = function(editor) { editor.insert("****"); editor.selection.moveCursorLeft(); editor.selection.moveCursorLeft(); }
+    this.italic = function(editor) { editor.insert("**"); editor.selection.moveCursorLeft() }
+    this.quote = function(editor) { editor.insert("\n\n> "); }
+    this.code = function(editor) { editor.insert("\n\n    "); }
+    this.ul = function(editor) { editor.insert("\n\n - "); }
+    this.ol = function(editor) { editor.insert("\n\n 1. "); }
+    this.header = function(editor) { editor.insert("\n\n# "); }
+    this.undo = function(editor) { editor.getSession().getUndoManager().undo(); }
+    this.redo = function(editor) { editor.getSession().getUndoManager().redo(); }
 
-    this.image = function() { 
+    this.image = function(editor, self) {
         bootpopup({
             title: "Add image",
             content: [
@@ -25,7 +25,7 @@ acetoolbar.prototype.toolbar = function(editor, options) {
         });
     }
     
-    this.link = function() {
+    this.link = function(editor) {
         bootpopup({
             title: "Add hyperlink",
             content: [
