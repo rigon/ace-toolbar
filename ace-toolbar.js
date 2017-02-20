@@ -2,15 +2,18 @@
 
 function acetoolbar(htmlElement, customOptions) {
     var self = this;                            // Reference for this object
+    var options;                                // List of options used
+
     var element = $(htmlElement);               // jQuery object of the selected HTML element
     var editor = $("<div></div>");              // Content for Ace Editor
     var toolbar = $("<div></div>");             // Content for toolbar
     var statusbar = $("<div></div>");           // Content for statusbar
     this.aceEditor = ace.edit(editor.get(0));   // Ace Editor
-    var options;
 
     // Global reference for this object
+    // Create a random ID
     var self_id = "acetoolbar_" + Math.round(Math.random() * Number.MAX_SAFE_INTEGER);
+    // Evaluate and assign the reference to a var with name acetoolbar_ID
     eval(self_id + "=this");
 
     this.loadLangConfig = function(lang) {
