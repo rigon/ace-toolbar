@@ -93,12 +93,9 @@ function acetoolbar(htmlElement, customOptions) {
         var obj;
         var group = $("<div></div>", { class: "btn-group", role: "group" });
 
-        console.log(list);
-
         for(var i in list) {
             var name = list[i];
             var button = buttons[name];
-            console.log(name);
 
             if(name === "space") {
                 element.append(group);
@@ -106,36 +103,43 @@ function acetoolbar(htmlElement, customOptions) {
                 continue;
             }
 
-            if(typeof button === "string")
-                // Create an element with the HTML
-                obj = $(button);
-            else if(typeof button === "object") {
-                // Create button
-                obj = $('<button type="button" class="btn btn-default"></button>');
+            switch(typeof button) {
+                case "string":
+                    // Create an element with the HTML
+                    group.append($(button));
+                    break;
+                case "object":
+                    // Create button
+                    obj = $('<button type="button" class="btn btn-default"></button>');
 
-                // If has icon
-                if("icon" in button) {
-                    var icon = $("<span></span>", { class: button.icon });
-                    obj.append(icon);
-                    delete button.icon;
-                }
-                // If has text
-                if("text" in button) {
-                    obj.append(" " + button.text);
-                    delete button.text;
-                }
-                // Convert functions to string
-                for(attribute in button)
-                    if(typeof button[attribute] === "function")
-                        button[attribute] = "("+ button[attribute] + ")(" + self_id + ".aceEditor, " + self_id + ")";
-                
-                // Set attributes
-                obj.attr(button);
+                    // If has icon
+                    if("icon" in button) {
+                        var icon = $("<span></span>", { class: button.icon });
+                        obj.append(icon);
+                        delete button.icon;
+                    }
+                    // If has text
+                    if("text" in button) {
+                        obj.append(" " + button.text);
+                        delete button.text;
+                    }
+                    // Convert functions to string
+                    for(attribute in button)
+                        if(typeof button[attribute] === "function")
+                            button[attribute] = "("+ button[attribute] + ")(" + self_id + ".aceEditor, " + self_id + ")";
+                    
+                    // Set attributes
+                    obj.attr(button);
+
+                    // Add button to the group
+                    group.append(obj);
+                    break;
+                default:
+                    throw "Wrong button type";
             }
-            // Add button to the group
-            group.append(obj);
         }
 
+        // Append the last group
         element.append(group);
     }
 
