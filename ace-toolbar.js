@@ -2,8 +2,11 @@
 
 function acetoolbar(htmlElement, customOptions) {
     var self = this;                            // Reference for this object
-    var options;                                // List of options used
-
+    this.options = {                             // List of default options
+        toolbar: { show: true, attr: {}, list: [], buttons: {} },
+        statusbar: { show: true, attr: {}, list: [], buttons: {} }
+    };
+    
     var element = $(htmlElement);               // jQuery object of the selected HTML element
     var editor = $("<div></div>");              // Content for Ace Editor
     var toolbar = $("<div></div>");             // Content for toolbar
@@ -21,49 +24,60 @@ function acetoolbar(htmlElement, customOptions) {
             var optionsToolbar = self.toolbar(this.aceEditor, customOptions);
             var optionsStatusbar = self.statusbar(this.aceEditor, customOptions);
 
+            // Load default configurations for selected language
             self.processOptions({
                 toolbar: optionsToolbar,
                 statusbar: optionsStatusbar
             });
+            // Load custom options specific for this instance
+            self.processOptions(customOptions);
 
             self.create();
         });
     }
 
 
-    this.processOptions = function(defaultOptions) {
-        this.options = customOptions;
+    this.processOptions = function(newOptions) {
+        // Incompatible data type
+        if(typeof newOptions !== "object") return;
 
-        for(attribute in defaultOptions) {
+        // Iterate over new options
+        for(var attribute in newOptions) {
             switch(attribute) {
                 case "toolbar":
                 case "statusbar":
-                    // Check if exists in this.options
+                    // Check if exist in this.options
                     if(attribute in this.options) {
-                        var src = defaultOptions[attribute];
+                        var src = newOptions[attribute];
                         var dst = this.options[attribute];
 
                         // Merge buttons
-                        for(btn in src.buttons)
+                        if(typeof src.buttons === "object")
+                            for(btn in src.buttons)
                                 dst.buttons[btn] = src.buttons[btn];
                         
                         // List of buttons
                         var list = [];
-                        if("list" in src) list = src.list;
                         if("list" in dst) list = dst.list;
+                        if("list" in src) list = src.list;
                         dst.list = listButtons(list, dst.buttons);
 
-                        for(subattr in src) {
-                            if(!(subattr in dst))    // Copy values not present in toolbar or statusbar
-                                dst[subattr] = src[subattr];
-                        }
+                        // Copy attributes in an incremental way
+                        for(var attr in src.attr)
+                            dst[attr] = src.attr[attr];
+
+                        // Copy the remaining values, i. e. everything except "attr", "buttons" and "list"
+                        for(var value in src)
+                            if(!["attr", "buttons", "list"].includes(value))
+                                dst[value] = src[value];
+                        
+                        break;
                     }
-                    else    // If not doesn't exist, copy everything
-                        this.options[attribute] = defaultOptions[attribute];
-                    break;
+                    // If not doesn't exist, copy everything
+                    // (continue for default action)
                 default:
-                    if(!(attribute in this.options))    // Copy values not present in options
-                        this.options[attribute] = defaultOptions[attribute];
+                    // Copy values to in options
+                    this.options[attribute] = newOptions[attribute];
             }
         }
     }
@@ -83,7 +97,7 @@ function acetoolbar(htmlElement, customOptions) {
 
 
     function createBar(list, buttons, element, self_id) {
-        for(name in list) {
+        for(var name in list) {
             var button = buttons[list[name]];
             var obj;
 
@@ -226,8 +240,9 @@ function acetoolbar(htmlElement, customOptions) {
 }
 
 jQuery.fn.extend({
-    acetoolbar: function (options) {
+    acetoolbar: function(options) {
         return this.each(function () {
+            if(typeof options === "undefined") options = {};
             return new acetoolbar(this, options);
         });
     }
