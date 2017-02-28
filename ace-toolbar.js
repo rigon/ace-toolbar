@@ -12,7 +12,7 @@ function acetoolbar(htmlElement, customOptions) {
 
     // Global reference for this object
     // Create a random ID
-    var self_id = "acetoolbar_" + Math.round(Math.random() * Number.MAX_SAFE_INTEGER);
+    var self_id = "acetoolbar_" + String(Math.random()).substr(2);
     // Evaluate and assign the reference to a var with name acetoolbar_ID
     eval(self_id + "=this");
 
