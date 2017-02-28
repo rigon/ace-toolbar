@@ -37,7 +37,7 @@ function acetoolbar(htmlElement, customOptions) {
         // Incompatible data type
         if(typeof newOptions !== "object") return;
 
-        // Iterate over new options
+        // Iterate over newOptions
         for(var attribute in newOptions) {
             switch(attribute) {
                 case "toolbar":
@@ -66,7 +66,7 @@ function acetoolbar(htmlElement, customOptions) {
 
                         // Copy attributes in an incremental way
                         for(var attr in src.attr)
-                            dst[attr] = src.attr[attr];
+                            dst.attr[attr] = src.attr[attr];
 
                         // Copy the remaining values, i. e. everything except "attr", "buttons" and "list"
                         for(var value in src)
@@ -85,7 +85,7 @@ function acetoolbar(htmlElement, customOptions) {
     }
 
 
-    function createBar(list, buttons, element, self_id) {
+    function createButtons(list, buttons, element, self_id) {
         var obj;
         var group = $("<div></div>", { class: "btn-group", role: "group" });
 
@@ -139,24 +139,40 @@ function acetoolbar(htmlElement, customOptions) {
         element.append(group);
     }
 
-    this.create = function() {
-        var toolbar = $("<div></div>");     // Container for toolbar
-        var statusbar = $("<div></div>");   // Container for statusbar
+    function createToolbar(options, container, self_id) {
+        var toolbar;
+        var attr = options.attr;
+        var selector = options.selector;
+        var list = options.list;
+        var buttons = options.buttons;
 
-        // Append toolbar
-        toolbar.attr(this.options.toolbar.attr);
-        this.container.append(toolbar);
-        createBar(this.options.toolbar.list, this.options.toolbar.buttons, toolbar, self_id);
+        // Container for toolbar
+        if(typeof selector === "undefined") {
+            toolbar = $("<div></div>");
+            container.append(toolbar);
+        }
+        else
+            toolbar = $(selector);
+        
+        // Set attributes for toolbar
+        toolbar.attr(attr);
+
+        // Create toolbar
+        toolbar.each(function(index, element) {
+            createButtons(list, buttons, $(element), self_id);
+        });
+    }
+
+    this.create = function() {
+        // Create Toolbar
+        createToolbar(this.options.toolbar, this.container, self_id);
 
         // Append editor
         this.editor.attr(this.options.attr);
         //this.container.append(this.editor);
 
-        // Append statusbar
-        statusbar.attr(this.options.statusbar.attr);
-        this.container.append(statusbar);
-        createBar(this.options.statusbar.list, this.options.statusbar.buttons, statusbar, self_id);
-
+        // Create Statusbar
+        createToolbar(this.options.statusbar, this.container, self_id);
         
         // Configure Ace Editor
         this.aceEditor.setTheme("ace/theme/" + this.options.theme);
