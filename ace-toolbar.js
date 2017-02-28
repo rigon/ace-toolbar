@@ -2,7 +2,7 @@
 
 function acetoolbar(htmlElement, customOptions) {
     var self = this;                            // Reference for this object
-    this.options = {                             // List of default options
+    this.options = {                            // List of default options
         toolbar: { show: true, attr: {}, list: [], buttons: {} },
         statusbar: { show: true, attr: {}, list: [], buttons: {} }
     };
@@ -57,10 +57,16 @@ function acetoolbar(htmlElement, customOptions) {
                                 dst.buttons[btn] = src.buttons[btn];
                         
                         // List of buttons
-                        var list = [];
-                        if("list" in dst) list = dst.list;
-                        if("list" in src) list = src.list;
-                        dst.list = listButtons(list, dst.buttons);
+                        var hasSrcList = (typeof src.list === "object");
+                        var list = (hasSrcList ? src.list : dst.list);
+                        for(var button in dst.buttons) {
+                            var indexBefore = list.indexOf(dst.buttons[button].before);         // Index of before
+                            var indexAfter = list.indexOf(dst.buttons[button].after);           // Index of after
+                            if(indexBefore >= 0) list.splice(indexBefore, 0, button);           // Insert before
+                            else if(indexAfter >= 0) list.splice(indexAfter + 1, 0, button);    // Insert after
+                            else if(!hasSrcList && list.indexOf(button) < 0) list.push(button); // Push if not present
+                        }
+                        dst.list = list;
 
                         // Copy attributes in an incremental way
                         for(var attr in src.attr)
@@ -82,21 +88,9 @@ function acetoolbar(htmlElement, customOptions) {
         }
     }
 
-    
-    function listButtons(list, buttons) {
-        for(button in buttons) {
-            var indexBefore = list.indexOf(buttons[button].before);          // Index of before
-            var indexAfter = list.indexOf(buttons[button].after);            // Index of after
-            if(indexBefore >= 0) list.splice(indexBefore, 0, button);        // Insert before
-            else if(indexAfter >= 0) list.splice(indexAfter + 1, 0, button); // Insert after
-            else if(list.indexOf(button) < 0) list.push(button);             // Push if not present
-        }
-        return list;
-    }
-
-
 
     function createBar(list, buttons, element, self_id) {
+        console.log(list);
         for(var name in list) {
             var button = buttons[list[name]];
             var obj;
