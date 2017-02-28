@@ -251,7 +251,7 @@ jQuery.fn.extend({
     acetoolbar: function(options) {
         return this.each(function () {
             if(typeof options === "undefined") options = {};
-            return new acetoolbar(this, options);
+            return new acetoolbar(this, jQuery.extend(true, {}, options));
         });
     }
 });
