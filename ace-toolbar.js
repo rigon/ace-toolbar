@@ -2,22 +2,18 @@
 
 function acetoolbar(htmlElement, customOptions) {
     var self = this;                            // Reference for this object
+    
+    this.element = $(htmlElement);              // jQuery object of the selected HTML element
+    this.editor = $("<div></div>");             // Container for Ace Editor
+    this.aceEditor = ace.edit(editor.get(0));   // Ace Editor
     this.options = {                            // List of default options
         toolbar: { show: true, attr: {}, list: [], buttons: {} },
         statusbar: { show: true, attr: {}, list: [], buttons: {} }
     };
-    
-    var element = $(htmlElement);               // jQuery object of the selected HTML element
-    var editor = $("<div></div>");              // Content for Ace Editor
-    var toolbar = $("<div></div>");             // Content for toolbar
-    var statusbar = $("<div></div>");           // Content for statusbar
-    this.aceEditor = ace.edit(editor.get(0));   // Ace Editor
-
     // Global reference for this object
-    // Create a random ID
-    var self_id = "acetoolbar_" + String(Math.random()).substr(2);
-    // Evaluate and assign the reference to a var with name acetoolbar_ID
-    eval(self_id + "=this");
+    var self_id = "acetoolbar_" + String(Math.random()).substr(2);  // Create a random ID
+    eval(self_id + " = this");  // Reference for this object in a var with name self_id
+
 
     this.loadLangConfig = function(lang) {
         $.getScript("mode/" + lang + ".js", function(script, textStatus, jqXHR) {
@@ -144,6 +140,8 @@ function acetoolbar(htmlElement, customOptions) {
     }
 
     this.create = function() {
+        var toolbar = $("<div></div>");     // Container for toolbar
+        var statusbar = $("<div></div>");   // Container for statusbar
 
         // Append toolbar
         toolbar.attr(this.options.toolbar.attr);
@@ -253,8 +251,12 @@ function acetoolbar(htmlElement, customOptions) {
 
 jQuery.fn.extend({
     acetoolbar: function(options) {
+        // If custom options not provided
+        if(typeof options === "undefined")
+            options = {};
+
         return this.each(function () {
-            if(typeof options === "undefined") options = {};
+            // Deep copy of options
             return new acetoolbar(this, jQuery.extend(true, {}, options));
         });
     }
