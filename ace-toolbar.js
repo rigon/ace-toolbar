@@ -1,12 +1,12 @@
 
 
 function acetoolbar(htmlElement, customOptions) {
-    var self = this;                            // Reference for this object
+    var self = this;                                // Reference for this object
     
-    this.element = $(htmlElement);              // jQuery object of the selected HTML element
-    this.editor = $("<div></div>");             // Container for Ace Editor
-    this.aceEditor = ace.edit(editor.get(0));   // Ace Editor
-    this.options = {                            // List of default options
+    this.container = $(htmlElement);                // jQuery object of the selected HTML element
+    this.editor = $("<div></div>");                 // Container for Ace Editor
+    this.aceEditor = ace.edit(this.editor.get(0));  // Ace Editor
+    this.options = {                                // List of default options
         toolbar: { show: true, attr: {}, list: [], buttons: {} },
         statusbar: { show: true, attr: {}, list: [], buttons: {} }
     };
@@ -145,16 +145,16 @@ function acetoolbar(htmlElement, customOptions) {
 
         // Append toolbar
         toolbar.attr(this.options.toolbar.attr);
-        element.append(toolbar);
+        this.container.append(toolbar);
         createBar(this.options.toolbar.list, this.options.toolbar.buttons, toolbar, self_id);
 
         // Append editor
-        editor.attr(this.options.attr);
-        //element.append(editor);
+        this.editor.attr(this.options.attr);
+        //this.container.append(this.editor);
 
         // Append statusbar
         statusbar.attr(this.options.statusbar.attr);
-        element.append(statusbar);
+        this.container.append(statusbar);
         createBar(this.options.statusbar.list, this.options.statusbar.buttons, statusbar, self_id);
 
         
