@@ -40,6 +40,10 @@ acetoolbar.prototype.toolbar = function(editor, options) {
     }
 
     return {
+        list: ["bold", "italic", "space",
+            "quote", "code", "image", "link", "space",
+            "ol", "ul", "header", "table", "space",
+            "undo", "redo"],
         buttons: {
             bold: { title: "Bold", icon: "fa fa-bold", onclick: this.bold },
             italic: { title: "Italic", icon: "fa fa-italic", onclick: this.italic },

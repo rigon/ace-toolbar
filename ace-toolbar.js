@@ -90,12 +90,24 @@ function acetoolbar(htmlElement, customOptions) {
 
 
     function createBar(list, buttons, element, self_id) {
+        var obj;
+        var group = $("<div></div>", { class: "btn-group", role: "group" });
+
         console.log(list);
-        for(var name in list) {
-            var button = buttons[list[name]];
-            var obj;
+
+        for(var i in list) {
+            var name = list[i];
+            var button = buttons[name];
+            console.log(name);
+
+            if(name === "space") {
+                element.append(group);
+                group = $("<div></div>", { class: "btn-group", role: "group" });
+                continue;
+            }
 
             if(typeof button === "string")
+                // Create an element with the HTML
                 obj = $(button);
             else if(typeof button === "object") {
                 // Create button
@@ -120,9 +132,11 @@ function acetoolbar(htmlElement, customOptions) {
                 // Set attributes
                 obj.attr(button);
             }
-            // Add button to bar
-            element.append(obj);
+            // Add button to the group
+            group.append(obj);
         }
+
+        element.append(group);
     }
 
     this.create = function() {
