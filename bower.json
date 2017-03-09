@@ -19,7 +19,7 @@
   ],
   "dependencies": {
     "ace-builds": "ace-build#^1.2.6",
-    "bootpopup": "^1.0.1",
+    "bootpopup": "^1.1.0",
     "bootstrap": "^3.3.7",
     "font-awesome": "fontawesome#^4.7.0",
     "jquery": "^3.1.1",

@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *************************************************************************/
 
-acetoolbar.prototype.toolbar = function (editor, options) {
+acetoolbar.prototype.toolbar = function (options) {
 
 	this.bold	= function (editor) { editor.insert("****"); editor.selection.moveCursorLeft(); editor.selection.moveCursorLeft(); }
 	this.italic	= function (editor) { editor.insert("**"); editor.selection.moveCursorLeft() }

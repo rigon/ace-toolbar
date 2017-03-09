@@ -16,10 +16,55 @@
 		<script src="bower_components/bootstrap-toolbar/bootstrap-toolbar.js"></script>
 		<script src="bower_components/ace-builds/src-min-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
 		<script src="ace-toolbar.js"></script>
+		
+		<style type="text/css">
 
+			.toolbar {
+				background-color: lightgray;
+				background: linear-gradient(to bottom, #f7f7f7 0%,#bababa 100%);
+			}
+			.toolbar > .navbar { min-height: 0; }
+			.toolbar > .navbar > .btn-group {
+				margin: 5px;
+			}
+
+			.statusbar {
+				color: white;
+				background-color: #007ACC;
+				position: absolute;
+				bottom: 0px;
+				width: 100%;
+			}
+			.statusbar > .navbar { min-height: 0; margin: 0; }
+			.statusbar > .navbar > .btn-group {
+				margin: 0px 7px 0px 7px;
+			}
+			.statusbar .btn {
+				font-size: 85%;
+				color: white;
+				background: none;
+				border: none;
+				border-radius: 0px;
+				padding: 3px 6px;
+			}
+			.statusbar .btn:hover { background-color: #008DDF; }
+			.statusbar .btn:active, .statusbar .btn-group.open .btn {
+				color: white;
+				background-color: #0070C1;
+			}
+
+			#e1 .editor {
+				position: absolute;
+				top: 45px;
+				bottom: 25px;
+				width: 100%;
+			}
+		</style>
 		<script type="text/javascript">
 			window.onload = function() {
-				$(".editor").acetoolbar({
+				//ace.edit("e1");
+
+				$("#e1").acetoolbar({
 					lang: "markdown",
 					attr: {class: "editor"},
 
@@ -36,12 +81,40 @@
 					statusbar: {
 						show: true,
 						attr: {class: "statusbar"},
-						selector: ".selector",
-						list: ["button1", "button2"],
+						//selector: ".selector",
+						list: ["settings", "language", "theme", "space", "position" ],
 						buttons: {
-							button1: {attrs: "attrs"},
-							button2: {attrs: "attrs"},
-							linkforpage: {after: "link"}
+							settings: { icon: "fa fa-cogs", onclick: showSettings },
+
+							language: { 
+								widget: "dropup",
+								text: "Language",
+								list: [
+									{ text: '<a href="#">Plain text</a>' },
+									{ class: "divider" },
+									{ text: '<a href="#">HTML</a>' },
+									{ text: '<a href="#">JavaScript</a>' },
+									{ text: '<a href="#">Java</a>' },
+									{ text: '<a href="#">C/C++</a>' },
+									{ text: '<a href="#">OCaml</a>' },
+									{ text: '<a href="#">Haskell</a>' }]
+							},
+
+							theme: { 
+								widget: "dropup",
+								text: "Theme",
+								list: [
+									{ text: '<a href="#">Abyss</a>' },
+									{ text: '<a href="#">Dark+</a>' },
+									{ text: '<a href="#">Kimbie</a>' },
+									{ text: '<a href="#">High Contrast</a>' },
+									{ text: '<a href="#">Light</a>' },
+									{ text: '<a href="#">Monokai</a>' }]
+							},
+
+							position: {
+								text: "Ln 139, Col 54"
+							},
 						}
 					},
 					
@@ -166,13 +239,43 @@
 // <input type="checkbox" id="scrollPastEnd" checked>
 				});
 			}
+
+			function showSettings() {
+				bootpopup({
+					title: "Settings",
+					content: [
+						{ checkbox: { label: "Full Line Selection", name: "select_style" } },
+						{ checkbox: { label: "Highlight Active Line", name: "highlight_active" } },
+						{ checkbox: { label: "Show Invisibles", name: "show_hidden" } },
+						{ checkbox: { label: "Show Indent Guides", name: "display_indent_guides" } },
+						{ checkbox: { label: "Animate scrolling", name: "animate_scroll" } },
+						{ checkbox: { label: "Show Gutter", name: "show_gutter" } },
+						{ checkbox: { label: "Show Print Margin", name: "show_print_margin" } },
+						{ checkbox: { label: "Use Soft Tab", name: "soft_tab" } },
+						{ checkbox: { label: "Highlight selected word", name: "highlight_selected_word" } },
+						{ checkbox: { label: "Enable Behaviours", name: "enable_behaviours" } },
+						{ checkbox: { label: "Fade Fold Widgets", name: "fade_fold_widgets" } },
+						{ checkbox: { label: "Enable Elastic Tabstops", name: "elastic_tabstops" } },
+						{ checkbox: { label: "Incremental Search", name: "isearch" } },
+						{ checkbox: { label: "Show token info", name: "highlight_token" } },
+						{ checkbox: { label: "Read-only", name: "read_only" } },
+						{ checkbox: { label: "Scroll Past End", name: "scrollPastEnd" } },
+						{ checkbox: { label: "Scroll Past End", name: "soft_tab" } },
+
+
+// <label for="show_hscroll">Persistent HScroll</label>
+// <input type="checkbox" name="show_hscroll" id="show_hscroll">
+// <input type="checkbox" name="show_vscroll" id="show_vscroll">
+					],
+					buttons: ["cancel", "ok"],
+					ok: function (data, e) {
+						editor.insert("![" + data.title + "](" + data.link + ")");
+					},
+				});
+			}
 		</script>
 	</head>
     <body>
-		EDITOR 1:
-        <div class="editor" id="e1"></div>
-		
-		EDITOR 2:
-        <div class="editor" id="e2"></div>
+		<div id="e1"></div>
     </body>
 </html>

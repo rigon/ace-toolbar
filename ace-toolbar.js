@@ -17,12 +17,12 @@
  *************************************************************************/
 
 function acetoolbar(htmlElement, customOptions) {
-	var self = this; // Reference for this object
+	var self = this;					// Reference for this object
 
-	this.container = $(htmlElement);				// jQuery object of the selected HTML element
-	this.editor = $("<div></div>");					// Container for Ace Editor
-	this.aceEditor = ace.edit(this.editor.get(0));	// Ace Editor
-	this.options = {								// List of default options
+	this.container = $(htmlElement);	// jQuery object of the selected HTML element
+	this.editor;						// Container for Ace Editor
+	this.aceEditor;						// Ace Editor
+	this.options = {					// List of default options
 		toolbar: {
 			show: true,
 			attr: {},
@@ -39,8 +39,8 @@ function acetoolbar(htmlElement, customOptions) {
 
 	this.loadLangConfig = function(lang) {
 		$.getScript("mode/" + lang + ".js", function (script, textStatus, jqXHR) {
-			var optionsToolbar = self.toolbar(this.aceEditor, customOptions);
-			var optionsStatusbar = self.statusbar(this.aceEditor, customOptions);
+			var optionsToolbar = self.toolbar(customOptions);
+			var optionsStatusbar = self.statusbar(customOptions);
 
 			// Load default configurations for selected language
 			self.processOptions({
@@ -112,6 +112,7 @@ function acetoolbar(htmlElement, customOptions) {
 		// Set attributes for toolbar
 		toolbar.attr(attr);
 
+		// Pass context to the toobar buttons
 		options.context = context;
 
 		// Create toolbar
@@ -121,12 +122,14 @@ function acetoolbar(htmlElement, customOptions) {
 	}
 
 	this.create = function() {
+		this.editor = $("<div></div>");
+		this.editor.attr(this.options.attr);
+		// Append editor
+		this.container.append(this.editor);
+		this.aceEditor = ace.edit(this.editor.get(0));
+
 		// Create Toolbar
 		createToolbar(this.options.toolbar, this.container, this.aceEditor);
-
-		// Append editor
-		this.editor.attr(this.options.attr);
-		//this.container.append(this.editor);
 
 		// Create Statusbar
 		createToolbar(this.options.statusbar, this.container, this.aceEditor);
